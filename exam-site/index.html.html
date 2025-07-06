@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ADCA Online Exam - Pride Institute of Knowledge & Skill, Darlaghat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f9f9f9;
+    }
+    h1, h2, h3 {
+      text-align: center;
+    }
+    .question {
+      margin-bottom: 15px;
+      padding: 10px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 5px #ccc;
+    }
+    input[type="text"] {
+      width: 60%;
+      padding: 5px;
+    }
+    .timer {
+      text-align: right;
+      font-weight: bold;
+      font-size: 18px;
+      color: red;
+    }
+    #submitBtn {
+      display: block;
+      margin: 30px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #result {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pride Institute of Knowledge & Skill, Darlaghat</h1>
+  <h2>Course: ADCA (Advanced Diploma in Computer Applications)</h2>
+  <h2>Subject: Computer Fundamentals</h2>
+  <div class="timer" id="timer"></div>
+  <h3>Date: <input type="text" placeholder="Enter exam date"></h3>
+  <h3>Time Limit: 1 Hour</h3>
+  <p><strong>Instructions:</strong> Attempt all questions. MCQs carry 1 mark each. No negative marking.</p>
+
+  <h2>Section A: Multiple Choice Questions (1–30)</h2>
+  <div id="mcq-section"></div>
+
+  <h2>Section B: Fill in the Blanks (31–40)</h2>
+  <div id="fill-section"></div>
+
+  <h2>Section C: True / False (41–50)</h2>
+  <div id="tf-section"></div>
+
+  <button id="submitBtn">Submit Exam</button>
+  <div id="result"></div>
+
+  <script>
+    const mcqs = [
+      ["Which key is used to save a document in MS Word?", ["Ctrl + P", "Ctrl + S", "Ctrl + Z", "Ctrl + X"], 1],
+      ["Which file extension is used for MS Excel files?", [".docx", ".xlsx", ".pptx", ".txt"], 1],
+      ["Which application is used to create presentations?", ["MS Word", "MS Excel", "MS PowerPoint", "MS Access"], 2],
+      ["What does CPU stand for?", ["Central Process Unit", "Central Processing Unit", "Computer Power Unit", "Control Program Unit"], 1],
+      ["Which key is used to undo in MS Word?", ["Ctrl + X", "Ctrl + Z", "Ctrl + C", "Ctrl + S"], 1],
+      ["Which function is used to calculate total in Excel?", ["=TOTAL()", "=SUM()", "=ADD()", "=COMPUTE()"], 1],
+      ["Which tab in PowerPoint allows slide transitions?", ["Insert", "Transitions", "View", "Animations"], 1],
+      ["Which device is used to print hard copies?", ["Monitor", "Scanner", "Printer", "Keyboard"], 2],
+      ["What is the shortcut to copy in Windows?", ["Ctrl + P", "Ctrl + V", "Ctrl + C", "Ctrl + Z"], 2],
+      ["Which tool is used to check spelling in Word?", ["Grammar Tool", "Spell Check", "Review Tool", "Dictionary"], 1],
+      ["Which formula starts all Excel formulas?", ["!", "=", "@", "#"], 1],
+      ["Which key is used to start a new slide in PowerPoint?", ["Ctrl + N", "Ctrl + M", "Ctrl + S", "Ctrl + Shift"], 1],
+      ["What is the default extension of MS Word files?", [".doc", ".txt", ".pdf", ".xls"], 0],
+      ["Which is an input device?", ["Printer", "Monitor", "Keyboard", "Projector"], 2],
+      ["Which of the following is a valid URL?", ["http:/google", "www.google", "http://google.com", "google"], 2],
+      ["Which command is used to insert a table in Word?", ["Insert > Table", "View > Table", "Format > Table", "Table > Design"], 0],
+      ["Which one is not a function in Excel?", ["=SUM()", "=TEXT()", "=LIST()", "=IF()"], 2],
+      ["PowerPoint allows adding ________ to slides.", ["Text", "Images", "Audio/Video", "All of the above"], 3],
+      ["Shortcut for paste is:", ["Ctrl + V", "Ctrl + X", "Ctrl + S", "Ctrl + P"], 0],
+      ["Which tool is used to draw in MS Paint?", ["Select Tool", "Brush Tool", "Text Tool", "Eraser Tool"], 1],
+      ["To bold text in Word, which shortcut is used?", ["Ctrl + B", "Ctrl + I", "Ctrl + U", "Ctrl + T"], 0],
+      ["Where are page margins set in Word?", ["File", "Edit", "Page Layout", "Insert"], 2],
+      ["Which key is used to refresh the page?", ["F1", "F2", "F5", "F9"], 2],
+      ["Which function returns the largest value in Excel?", ["=BIG()", "=MAX()", "=LARGE()", "=HIGH()"], 1],
+      ["Which menu is used to print in Word?", ["Insert", "Review", "File", "Format"], 2],
+      ["In PowerPoint, which view shows slide thumbnails?", ["Slide Sorter", "Outline", "Normal", "Reading"], 0],
+      ["Which one is a web browser?", ["MS Word", "Excel", "Chrome", "PowerPoint"], 2],
+      ["Which type of memory is temporary?", ["ROM", "RAM", "Hard Drive", "SSD"], 1],
+      ["Which device helps to hear sound from computer?", ["Monitor", "Mouse", "Speakers", "Scanner"], 2],
+      ["MS Excel is used for?", ["Typing documents", "Creating presentations", "Doing calculations", "Editing videos"], 2],
+    ];
+
+    const fillBlanks = [
+      "Shortcut for cut is __________.",
+      "The extension for Word files is __________.",
+      "Slide show starts with shortcut __________.",
+      "Formula in Excel starts with __________.",
+      "Shortcut for bold is __________.",
+      "__________ key is used to delete.",
+      "The tool used to check spelling is __________.",
+      "__________ is used to input data.",
+      "The internet browser we use is __________.",
+      "MS Word is a __________ processing software."
+    ];
+
+    const trueFalse = [
+      "MS Word is used for data calculation.",
+      "Ctrl + P is used to print a document.",
+      "Excel can create charts.",
+      "PowerPoint is used for image editing.",
+      "You cannot insert videos in PowerPoint.",
+      "RAM is a permanent memory.",
+      "Ctrl + Z is used for Undo.",
+      "You can save documents in PDF format from Word.",
+      "Excel cannot handle text data.",
+      "A keyboard is an output device."
+    ];
+
+    const mcqContainer = document.getElementById("mcq-section");
+    mcqs.forEach((q, i) => {
+      const div = document.createElement("div");
+      div.className = "question";
+      div.innerHTML = `<strong>Q${i + 1}.</strong> ${q[0]}<br>` +
+        q[1].map((opt, j) => `<label><input type='radio' name='q${i}' value='${j}'> ${opt}</label><br>`).join('');
+      mcqContainer.appendChild(div);
+    });
+
+    const fillContainer = document.getElementById("fill-section");
+    fillBlanks.forEach((q, i) => {
+      const div = document.createElement("div");
+      div.className = "question";
+      div.innerHTML = `<strong>Q${i + 31}.</strong> ${q}<br><input type="text" name="fill${i}">`;
+      fillContainer.appendChild(div);
+    });
+
+    const tfContainer = document.getElementById("tf-section");
+    trueFalse.forEach((q, i) => {
+      const div = document.createElement("div");
+      div.className = "question";
+      div.innerHTML = `<strong>Q${i + 41}.</strong> ${q}<br>
+        <label><input type="radio" name="tf${i}" value="true"> True</label>
+        <label><input type="radio" name="tf${i}" value="false"> False</label>`;
+      tfContainer.appendChild(div);
+    });
+
+    let seconds = 3600;
+    const timerEl = document.getElementById("timer");
+    function updateTimer() {
+      const min = Math.floor(seconds / 60);
+      const sec = seconds % 60;
+      timerEl.textContent = `Time Left: ${min}m ${sec}s`;
+      if (seconds > 0) {
+        seconds--;
+        setTimeout(updateTimer, 1000);
+      } else {
+        alert("Time is up! Auto-submitting exam.");
+        calculateResult();
+      }
+    }
+    updateTimer();
+
+    document.getElementById("submitBtn").addEventListener("click", calculateResult);
+
+    function calculateResult() {
+      let score = 0;
+      mcqs.forEach((q, i) => {
+        const selected = document.querySelector(`input[name='q${i}']:checked`);
+        if (selected && parseInt(selected.value) === q[2]) {
+          score++;
+        }
+      });
+
+      for (let i = 0; i < 10; i++) {
+        const ans = document.querySelector(`input[name='fill${i}']`).value.trim();
+        if (ans.length > 0) score++;
+      }
+
+      for (let i = 0; i < 10; i++) {
+        const selected = document.querySelector(`input[name='tf${i}']:checked`);
+        const correct = (i % 2 === 0) ? "false" : "true";
+        if (selected && selected.value === correct) score++;
+      }
+
+      const percentage = (score / 50) * 100;
+      let grade = "";
+      if (percentage >= 90) grade = "A";
+      else if (percentage >= 75) grade = "B";
+      else if (percentage >= 50) grade = "C";
+      else grade = "Fail";
+
+      document.getElementById("result").innerHTML =
+        `Your Score: ${score}/50<br>Percentage: ${percentage.toFixed(2)}%<br>Grade: ${grade}`;
+    }
+  </script>
+</body>
+</html>
